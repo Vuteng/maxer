@@ -2,9 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
-
+#include <iomanip>
 #include <chrono> 
-using namespace std::chrono;
 
 struct Sorter {
 	int start;
@@ -47,7 +46,8 @@ int main(int argc, char** argv)
 		data.push_back(Sorter(l, r));
 	}
 
-	auto start = high_resolution_clock::now();
+	auto start = std::chrono::high_resolution_clock::now();
+	std::ios_base::sync_with_stdio(false);
 
 	//Sortiramo intervale glede na zacetek
 	std::sort(data.begin(), data.end(), [](const Sorter& a, const Sorter& b) -> bool {
@@ -120,9 +120,14 @@ int main(int argc, char** argv)
 
 	std::cout << numOfIntervalsAccepted << std::endl;
 
-	auto stop = high_resolution_clock::now();
-	auto duration = duration_cast<milliseconds>(stop - start);
-	std::cout << duration.count() << std::endl;
+	auto end = std::chrono::high_resolution_clock::now();
+	double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+	time_taken *= 1e-9;
+
+	std::cout << "Time taken by program is : " << std::fixed
+		<< time_taken << std::setprecision(9);
+	std::cout << " sec" << std::endl;
 
 
 	return 0;
