@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <iomanip>
 
 struct Sorter {
 	int left; //reach to the left
@@ -52,7 +54,9 @@ int main(int argc, char** argv)
 	while (infile >> l >> r) {
 		data.push_back(Sorter(l, r));
 	}
-	
+	auto start = std::chrono::high_resolution_clock::now();
+	std::ios_base::sync_with_stdio(false);
+
 	//finds first sorter with left = 1
 	Sorter f = findFirst(data);
 
@@ -65,9 +69,20 @@ int main(int argc, char** argv)
 	//getting min number of sorters we need to complete a maxer
 	int min = recursive(1, data, N, f);
 
+	auto end = std::chrono::high_resolution_clock::now();
+	double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+
+	time_taken *= 1e-9;
+
+	std::cout << "Time taken by program is : " << std::fixed
+		<< time_taken << std::setprecision(9);
+	std::cout << " sec" << std::endl;
+
 	std::ofstream outFile;
 	outFile.open("output.txt");
 	outFile << min << std::endl;
+
+
 }
 
 
