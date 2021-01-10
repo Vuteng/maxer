@@ -67,6 +67,7 @@ int main(int argc, char** argv)
 
 	std::ofstream outFile;
 	outFile.open("output.txt");
+	std::cout << min << std::endl;
 	outFile << min << std::endl;
 }
 
